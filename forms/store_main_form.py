@@ -16,7 +16,7 @@ class StoreMainForm:
 
 class Elements:
     def __init__(self, browser):
-        self.driver = browser
+        self.browser = browser
 
     @property
     def logo(self):
@@ -30,5 +30,5 @@ class Elements:
 
     @property
     def sticker(self):
-        css_selector = "div[class*='sticker']"
+        css_selector = "div.sticker"
         return css_selector
