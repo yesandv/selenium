@@ -1,14 +1,13 @@
 from forms.admin_console_form import AdminConsoleForm
 
 
-class AdminAuthForm:
+class SignInForm:
     def __init__(self, browser):
         self.browser = browser
         self.elements = Elements(browser)
 
     def open(self):
         self.browser.get("http://localhost/litecart/admin/")
-        return AdminAuthForm
 
     def log_in(self, username, password):
         self.elements.username.send_keys(username)
