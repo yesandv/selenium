@@ -1,6 +1,3 @@
-from forms.admin_console_form import AdminConsoleForm
-
-
 class SignInForm:
     def __init__(self, browser):
         self.browser = browser
@@ -22,7 +19,6 @@ class SignInForm:
         if remember_me:
             self.select_remember_me_checkbox()
         self.log_in(username, password)
-        return AdminConsoleForm
 
 
 class Elements:

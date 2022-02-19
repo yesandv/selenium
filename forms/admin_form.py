@@ -1,4 +1,4 @@
-class AdminConsoleForm:
+class AdminForm:
     def __init__(self, browser):
         self.driver = browser
         self.elements = Elements(browser)
