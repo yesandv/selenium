@@ -28,11 +28,11 @@ class AdminConsoleForm:
 
 class Elements:
     def __init__(self, browser):
-        self.driver = browser
+        self.browser = browser
 
     @property
     def app_menu(self):
-        return self.driver.find_element_by_css_selector("ul#box-apps-menu")
+        return self.browser.find_element_by_css_selector("ul#box-apps-menu")
 
     @property
     def menu_items(self):
@@ -41,7 +41,7 @@ class Elements:
 
     @property
     def selected_menu_item(self):
-        return self.driver.find_element_by_css_selector("li[id*='app'].selected")
+        return self.browser.find_element_by_css_selector("li[id*='app'].selected")
 
     @property
     def item_child(self):

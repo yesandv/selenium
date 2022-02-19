@@ -1,3 +1,6 @@
+from forms.admin_console_form import AdminConsoleForm
+
+
 class AdminAuthForm:
     def __init__(self, browser):
         self.browser = browser
@@ -20,24 +23,25 @@ class AdminAuthForm:
         if remember_me:
             self.select_remember_me_checkbox()
         self.log_in(username, password)
+        return AdminConsoleForm
 
 
 class Elements:
     def __init__(self, browser):
-        self.driver = browser
+        self.browser = browser
 
     @property
     def username(self):
-        return self.driver.find_element_by_name("username")
+        return self.browser.find_element_by_name("username")
 
     @property
     def password(self):
-        return self.driver.find_element_by_name("password")
+        return self.browser.find_element_by_name("password")
 
     @property
     def remember_me_checkbox(self):
-        return self.driver.find_element_by_name("remember_me")
+        return self.browser.find_element_by_name("remember_me")
 
     @property
     def login_btn(self):
-        return self.driver.find_element_by_name("login")
+        return self.browser.find_element_by_name("login")
