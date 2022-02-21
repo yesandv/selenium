@@ -1,7 +1,7 @@
-from forms.store_main_form import StoreMainForm
+from forms.main_form import MainForm
 
 
 def test_verify_rubber_ducks_have_label(browser):
-    store = StoreMainForm(browser)
+    store = MainForm(browser)
     store.open()
     store.verify_rubber_ducks_have_label()
