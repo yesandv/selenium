@@ -15,7 +15,7 @@ class MainForm:
         for i in range(len(rubber_duck_list)):
             rubber_duck = rubber_duck_list[i]
             sticker = rubber_duck.find_elements_by_css_selector(self.elements.sticker)
-            assert len(sticker) > 0, "У товара нет стикера"
+            assert len(sticker) == 1, "У товара не один стикер"
 
     def verify_campaign_rubber_duck_name(self, expected_name):
         actual_rubber_duck = self.elements.make_campaign_rubber_duck_obj(self.elements.campaign_duck)
@@ -35,19 +35,21 @@ class MainForm:
 
     def verify_campaign_rubber_duck_price_element_properties(self):
         regular_price = self.elements.campaign_duck.find_element_by_xpath(".//*[@class='regular-price']")
-        assert "119, 119, 119" in regular_price.value_of_css_property('color')
+        grey_colour = regular_price.value_of_css_property('color').split("(")[1].split(")")[0].split(", ")
+        assert len(set(grey_colour)) == 1
         assert "line-through" in regular_price.value_of_css_property("text-decoration")
 
     def verify_campaign_rubber_duck_discount_price_element_properties(self):
         discount_price = self.elements.campaign_duck.find_element_by_xpath(".//*[@class='campaign-price']")
-        assert "204, 0, 0" in discount_price.value_of_css_property('color')
-        assert int(discount_price.value_of_css_property('font-weight')) > 400
+        red_colour = discount_price.value_of_css_property('color').split("(")[1].split(")")[0].split(", ")
+        assert red_colour[1] == red_colour[2]
+        assert int(discount_price.value_of_css_property("font-weight")) > 400
 
     def compare_campaign_rubber_duck_price_elements(self):
         regular_price = self.elements.campaign_duck.find_element_by_xpath(".//*[@class='regular-price']")
         discount_price = self.elements.campaign_duck.find_element_by_xpath(".//*[@class='campaign-price']")
-        regular_price_font_size = float(regular_price.value_of_css_property('font-size').split("px")[0])
-        discount_price_font_size = int(discount_price.value_of_css_property('font-size').split("px")[0])
+        regular_price_font_size = float(regular_price.value_of_css_property("font-size").split("px")[0])
+        discount_price_font_size = int(discount_price.value_of_css_property("font-size").split("px")[0])
         assert regular_price_font_size < discount_price_font_size
 
 
@@ -56,13 +58,8 @@ class Elements:
         self.browser = browser
 
     @property
-    def logo(self):
-        css_selector = "img[src*='lonely-duck']"
-        return css_selector
-
-    @property
     def rubber_duck(self):
-        css_selector = "li[class*='product']"
+        css_selector = ".product"
         return css_selector
 
     @property
