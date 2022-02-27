@@ -52,6 +52,14 @@ class MainForm:
         discount_price_font_size = int(discount_price.value_of_css_property("font-size").split("px")[0])
         assert regular_price_font_size < discount_price_font_size
 
+    def log_in(self, email, password):
+        self.elements.email.send_keys(email.lower())
+        self.elements.password.send_keys(password)
+        self.elements.log_in_btn.click()
+
+    def log_out(self):
+        self.elements.log_out.click()
+
 
 class Elements:
     def __init__(self, browser):
@@ -78,3 +86,19 @@ class Elements:
         rubber_duck_discount_price = campaign_duck.find_element_by_xpath(".//*[@class='campaign-price']").text.split("$")[1]
         rubber_duck = RubberDuck(name=rubber_duck_name, price=int(rubber_duck_price), discount_price=int(rubber_duck_discount_price))
         return rubber_duck
+
+    @property
+    def email(self):
+        return self.browser.find_element_by_css_selector("input[name='email']")
+
+    @property
+    def password(self):
+        return self.browser.find_element_by_css_selector("input[name='password']")
+
+    @property
+    def log_in_btn(self):
+        return self.browser.find_element_by_css_selector("button[name='login']")
+
+    @property
+    def log_out(self):
+        return self.browser.find_element_by_xpath("//div[@id='box-account']//a[text()='Logout']")
