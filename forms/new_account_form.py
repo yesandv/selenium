@@ -20,8 +20,8 @@ class NewAccountForm:
         postcode.send_keys(account.postcode)
         city = self.elements.city
         city.send_keys(account.city)
-        country = Select(self.elements.country)
-        country.select_by_visible_text(account.country)
+        self.elements.country.click()
+        self.elements.country_option(account.country).click()
         state = Select(self.elements.state)
         state.select_by_visible_text(account.state)
         email = self.elements.email
@@ -61,7 +61,10 @@ class Elements:
 
     @property
     def country(self):
-        return self.browser.find_element_by_css_selector("select[name='country_code']")
+        return self.browser.find_element_by_css_selector("span .select2-selection")
+
+    def country_option(self, country):
+        return self.browser.find_element_by_xpath(f"//li[contains(@id, 'select2') and text()='{country}']")
 
     @property
     def state(self):
