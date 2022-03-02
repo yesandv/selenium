@@ -1,3 +1,8 @@
+from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+
 from model.rubber_duck import RubberDuck
 
 
@@ -43,6 +48,15 @@ class RubberDuckForm:
         discount_price_font_size = int(discount_price.value_of_css_property('font-size').split("px")[0])
         assert regular_price_font_size < discount_price_font_size
 
+    def add_to_cart(self, i):
+        wait = WebDriverWait(self.browser, 5)
+        wait.until(EC.visibility_of_element_located((By.XPATH, self.elements.items_in_cart(i))))
+        if len(self.elements.size) > 0:
+            size = Select(self.elements.size[0])
+            size.select_by_index(1)
+        self.elements.add_to_cart_btn.click()
+        wait.until(EC.visibility_of_element_located((By.XPATH, self.elements.items_in_cart(i+1))))
+
 
 class Elements:
     def __init__(self, browser):
@@ -59,3 +73,15 @@ class Elements:
     @property
     def rubber_duck_discount_price(self):
         return self.browser.find_element_by_xpath("//*[@class='campaign-price']")
+
+    @staticmethod
+    def items_in_cart(number_of_items):
+        return f"//a[contains(@href, 'checkout')]//span[@class='quantity' and text()='{number_of_items}']"
+
+    @property
+    def size(self):
+        return self.browser.find_elements_by_css_selector("select[name='options[Size]']")
+
+    @property
+    def add_to_cart_btn(self):
+        return self.browser.find_element_by_css_selector(".buy_now button")

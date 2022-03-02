@@ -1,3 +1,4 @@
+from forms.cart_form import CartForm
 from forms.rubber_duck_form import RubberDuckForm
 from model.rubber_duck import RubberDuck
 
@@ -60,6 +61,14 @@ class MainForm:
     def log_out(self):
         self.elements.log_out.click()
 
+    def open_first_item(self):
+        self.elements.get_item(1).click()
+        return RubberDuckForm
+
+    def open_cart(self):
+        self.elements.cart.click()
+        return CartForm
+
 
 class Elements:
     def __init__(self, browser):
@@ -102,3 +111,10 @@ class Elements:
     @property
     def log_out(self):
         return self.browser.find_element_by_xpath("//div[@id='box-account']//a[text()='Logout']")
+
+    def get_item(self, item_number):
+        return self.browser.find_element_by_xpath(f"//ul[contains(@class, 'listing')]/li[{item_number}]")
+
+    @property
+    def cart(self):
+        return self.browser.find_element_by_css_selector("a.content[href*='checkout']")
