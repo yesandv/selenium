@@ -24,6 +24,10 @@ class CountriesForm:
                 self.browser.get(f"http://localhost/litecart/admin/?app=countries&doc=edit_country&country_code={country.code}")
                 self.country_card_form.verify_zones_are_sorted_alphabetically()
 
+    def add_new_country(self):
+        self.elements.add_new_country_btn.click()
+        return CountryCardForm
+
 
 class Elements:
     def __init__(self, browser):
@@ -46,3 +50,7 @@ class Elements:
             country.zones = int(attributes[5].text)
             country_list.append(country)
         return country_list
+
+    @property
+    def add_new_country_btn(self):
+        return self.browser.find_element_by_css_selector(".button[href*='edit_country']")

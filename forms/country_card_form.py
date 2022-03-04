@@ -1,3 +1,5 @@
+import time
+
 from model.country import Zone
 
 
@@ -11,6 +13,18 @@ class CountryCardForm:
         zone_name_list = [zone.name for zone in zone_list]
         sorted_zone_name_list = sorted(zone_name_list)
         assert zone_name_list == sorted_zone_name_list, "Список зон не отсортирован в алфавитном порядке"
+
+    def open_links_in_new_tab(self):
+        external_links = self.elements.external_links
+        edit_country_tab = self.browser.current_window_handle
+        for i in range(len(external_links)):
+            link = external_links[i]
+            link.click()
+            time.sleep(2)
+            new_tab = self.browser.window_handles[1]
+            self.browser.switch_to.window(new_tab)
+            self.browser.close()
+            self.browser.switch_to_window(edit_country_tab)
 
 
 class Elements:
@@ -34,3 +48,7 @@ class Elements:
             zone.name = attributes[2].text
             zone_list.append(zone)
         return zone_list
+
+    @property
+    def external_links(self):
+        return self.browser.find_elements_by_css_selector(".fa-external-link")
