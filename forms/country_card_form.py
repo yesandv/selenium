@@ -21,7 +21,8 @@ class CountryCardForm:
             link = external_links[i]
             link.click()
             time.sleep(2)
-            new_tab = self.browser.window_handles[1]
+            all_tabs = self.browser.window_handles
+            new_tab = [tab for tab in all_tabs if tab != edit_country_tab][0]
             self.browser.switch_to.window(new_tab)
             self.browser.close()
             self.browser.switch_to_window(edit_country_tab)
