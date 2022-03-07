@@ -8,11 +8,11 @@ class CartForm:
         self.elements = Elements(browser)
 
     def empty(self):
-        order = self.elements.order_items
-        for i in range(len(order)):
+        for i in range(len(self.elements.order_items)):
+            order = self.elements.order_items
             self.elements.remove_btn.click()
             wait = WebDriverWait(self.browser, 3)
-            wait.until(EC.staleness_of(order[i]))
+            wait.until(EC.staleness_of(order[0]))
 
 
 class Elements:
